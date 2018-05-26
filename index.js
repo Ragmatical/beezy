@@ -33,6 +33,7 @@ function addSockets() {
     };
   if(Object.keys(players).length === 1) {
     timer = 60
+    players[user].zombie = true
   }
     io.emit('playerUpdate', players);
     io.emit('new message', {
@@ -60,7 +61,7 @@ function addSockets() {
   });
   setInterval(function(){
     io.emit("time", timer);
-    timer--;
+    if(!timer<0){timer--};
   }, 1000)
 }
 

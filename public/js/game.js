@@ -12,7 +12,11 @@ socket.on('playerUpdate', updatePlayers);
 function updatePlayers(players) {
   var playerNames = Object.keys(players);
   playerNames.forEach(function(playerName) {
-    if (playerName === user) return;
+    var isZombie = players[playerName].zombie
+    if (playerName === user) {
+      gamePieces[user].zombie = isZombie;
+      return;
+    }
     if (!gamePieces[playerName]) {
       createNewPlayer(playerName);
     }
@@ -20,6 +24,7 @@ function updatePlayers(players) {
     var gamePiece = gamePieces[playerName];
     gamePiece.x = player.x;
     gamePiece.y = player.y;
+    gamePiece.zombie = isZombie
   })
 
   var gamePiecesNames = Object.keys(gamePieces);
@@ -36,7 +41,6 @@ function createNewPlayer(playerName) {
     loaded: false,
     x: $canvas.width/2,
     y: $canvas.height/2,
-    zombie: Object.keys(gamePieces).length === 0?true:false
   };
   gamePiece.avatar = new Image();
   gamePiece.avatar.onload = function() {
