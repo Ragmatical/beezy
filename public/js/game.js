@@ -103,6 +103,7 @@ function updatePlayerPosition(e) {
   socket.emit('playerUpdate', {
     x: gamePiece.x,
     y: gamePiece.y
+    zombie: gamePiece.zombie
   });
 
 }
