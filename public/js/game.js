@@ -1,5 +1,12 @@
 var context = $canvas.getContext('2d');
 var gamePieces = {};
+var gameItems = [];
+var itemPath = '/img/apple.png'
+var itemImage = new Image();
+itemImage.onload = createItems;
+itemImage.src = itemPath;
+
+
 socket.on('playerUpdate', updatePlayers);
 
 function updatePlayers(players) {
@@ -66,6 +73,7 @@ function drawGamePiece() {
 function animate() {
   context.clearRect(0, 0, $canvas.width, $canvas.height);
   drawGamePiece();
+  drawItems();
   window.requestAnimationFrame(animate);
 }
 
@@ -102,6 +110,31 @@ Object.keys(gamePieces).forEach(function(player) {
   }
 })
 
+function drawBarriers(){}
+
+function earnPoints(){}
+
+function createSoundEffects(){}
+
+function createItems(){
+  var x = parseInt(Math.random()*100);
+  var y = parseInt(Math.random()*100);
+  gameItems.push({x,y})
+  setTimeout(createItems, 5000+Math.random()*10000);
+  setTimeout(function(){gameItems.shift()}, 10000);
+}
+
+function drawItems(){
+  var itemWidth = Math.min($canvas.width, $canvas.height) / 30;
+  gameItems.forEach(function(gameItem) {
+    context.drawImage(
+      itemImage, gameItem.x, gameItem.y, itemWidth, itemWidth
+    );
+
+  });
+}
+
+function runTimer(){}
 
 window.requestAnimationFrame(animate);
 createNewPlayer(user);
