@@ -24,13 +24,16 @@ var dbAddress = process.env.MONGODB_URI || 'mongodb://127.0.0.1/game'
 function addSockets() {
 
   var players = {};
-
+  var timer = 0;
   io.on('connection', (socket) => {
     var user = socket.handshake.query.user;
     players[user] = {
       x: 0,
       y: 0
     };
+  if(Object.keys(players).length === 1) {
+    timer = 60
+  }
     io.emit('playerUpdate', players);
     io.emit('new message', {
       user: user,
@@ -55,6 +58,10 @@ function addSockets() {
       io.emit('playerUpdate', players);
     })
   });
+  setInterval(function(){
+    io.emit("time", timer);
+    timer--;
+  }, 1000)
 }
 
 function startServer() {
