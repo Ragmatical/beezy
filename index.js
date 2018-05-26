@@ -29,7 +29,8 @@ function addSockets() {
     var user = socket.handshake.query.user;
     players[user] = {
       x: 0,
-      y: 0
+      y: 0,
+      zombie: false
     };
   if(Object.keys(players).length === 1) {
     timer = 60
@@ -61,7 +62,7 @@ function addSockets() {
   });
   setInterval(function(){
     io.emit("time", timer);
-    if(!timer<0){timer--};
+    if(timer>0){timer--};
   }, 1000)
 }
 
