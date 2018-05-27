@@ -34,7 +34,7 @@ function addSockets() {
         zombie: false
       };
   if(Object.keys(players).length === 1) {
-    timer = 60
+    timer = 180
     players[user].zombie = true
   }
     io.emit('playerUpdate', players);
@@ -64,7 +64,27 @@ function addSockets() {
   setInterval(function(){
     io.emit("time", timer);
     if(timer>0){timer--};
+    var winners;
+    if(timer = 0){
+      var humans = []
+      var zombies = []
+      Object.keys(players).forEach(function(player){
+        if(players[player].zombie){
+          zombies.push(player)
+        }
+        else {
+          humans.push(player)
+        }
+        if(humans.length>0){
+          winners = "humans win"
+        } else {
+          winners = "zombies win"
+        }
+      })
+      io.emit('Dubs', winners);
+    };
   }, 1000)
+
 }
 
 function startServer() {
