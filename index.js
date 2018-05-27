@@ -27,11 +27,12 @@ function addSockets() {
   var timer = 0;
   io.on('connection', (socket) => {
     var user = socket.handshake.query.user;
-    players[user] = {
-      x: 0,
-      y: 0,
-      zombie: false
-    };
+    players[user] = players[user] ||
+      players[user] = {
+        x: 0,
+        y: 0,
+        zombie: false
+      };
   if(Object.keys(players).length === 1) {
     timer = 60
     players[user].zombie = true
