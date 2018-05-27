@@ -76,9 +76,9 @@ function addSockets() {
           humans.push(player)
         }
         if(humans.length>0){
-          winners = "humans win"
+          winner = "humans"
         } else {
-          winners = "zombies win"
+          winner = "zombies"
         }
       })
       io.emit('Dubs', winners);

@@ -8,7 +8,7 @@ itemImage.src = itemPath;
 
 
 socket.on('playerUpdate', updatePlayers);
-
+socket.on('Dubs', winners)
 function updatePlayers(players) {
   var playerNames = Object.keys(players);
   playerNames.forEach(function(playerName) {
@@ -33,6 +33,10 @@ function updatePlayers(players) {
         delete gamePieces[gamePieceName];
       };
   });
+}
+
+function winners(winner) {
+  alert(winner + "are your new gods. They do not care about the vast number of broken elbows they see.")
 }
 
 
