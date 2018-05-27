@@ -28,7 +28,7 @@ function addSockets() {
   io.on('connection', (socket) => {
     var user = socket.handshake.query.user;
     players[user] = players[user] ||
-      players[user] = {
+      {
         x: 0,
         y: 0,
         zombie: false
