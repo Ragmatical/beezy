@@ -63,7 +63,7 @@ function addSockets() {
   });
   setInterval(function(){
     io.emit("time", timer);
-    if(timer>0){timer--};
+    if(timer>0){return timer--};
     var winners;
     if(timer = 0){
       var humans = []
