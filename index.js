@@ -27,16 +27,15 @@ function addSockets() {
   var timer = 0;
   io.on('connection', (socket) => {
     var user = socket.handshake.query.user;
-    players[user] = players[user] ||
-      {
-        x: 0,
-        y: 0,
-        zombie: false
-      };
-  if(Object.keys(players).length === 1) {
-    timer = 120
-    players[user].zombie = true
-  }
+    players[user] = players[user] || {
+      x: 0,
+      y: 0,
+      zombie: false
+    };
+    if (Object.keys(players).length === 1) {
+      timer = 120
+      players[user].zombie = true
+    }
     io.emit('playerUpdate', players);
     io.emit('new message', {
       user: user,
@@ -47,8 +46,7 @@ function addSockets() {
       delete players[user];
       io.emit('new message', {
         user: user,
-        message:
-        'Left the game'
+        message: 'Left the game'
       })
       io.emit('playerUpdate', players);
       //io.emit('new message', 'user disconnected')
@@ -61,24 +59,25 @@ function addSockets() {
       io.emit('playerUpdate', players);
     })
   });
-  setInterval(function(){
+  setInterval(function() {
     io.emit("time", timer);
-    if(timer>0){return timer--};
+    if (timer > 0) {
+      return timer--
+    };
     var winners;
-    if(timer = 0){
+    if (timer = 0) {
       var humans = []
       var zombies = []
-      Object.keys(players).forEach(function(player){
-        if(players[player].zombie){
+      Object.keys(players).forEach(function(player) {
+        if (players[player].zombie) {
           zombies.push(player)
-        }
-        else {
+        } else {
           humans.push(player)
         }
-        if(humans.length>0){
-          winner = "humans"
+        if (humans.length > 0) {
+          winners = "humans"
         } else {
-          winner = "zombies"
+          winners = "zombies"
         }
       })
       io.emit('Dubs', winners);
