@@ -80,7 +80,7 @@ function addSockets() {
           winners = "zombies"
         }
       })
-      io.emit('Dubs', winners);
+      return io.emit('Dubs', winners);
     };
   }, 1000)
 
