@@ -29,15 +29,16 @@ function updatePlayers(players) {
 
   var gamePiecesNames = Object.keys(gamePieces);
   gamePiecesNames.forEach(function(gamePieceName) {
-      if (!players[gamePieceName]) {
-        delete gamePieces[gamePieceName];
-      };
+    if (!players[gamePieceName]) {
+      delete gamePieces[gamePieceName];
+    };
   });
 }
 var winnertimes = 0;
+
 function winner(winners) {
-  winnertimes++ ;
-  if(winnertimes<2) {
+  winnertimes++;
+  if (winnertimes < 2) {
     alert(winners)
   }
 
@@ -47,8 +48,8 @@ function winner(winners) {
 function createNewPlayer(playerName) {
   var gamePiece = {
     loaded: false,
-    x: $canvas.width/2,
-    y: $canvas.height/2,
+    x: $canvas.width / 2,
+    y: $canvas.height / 2,
   };
   gamePiece.avatar = new Image();
   gamePiece.avatar.onload = function() {
@@ -57,10 +58,10 @@ function createNewPlayer(playerName) {
   gamePiece.avatar.src = '/picture/' + playerName;
   gamePieces[playerName] = gamePiece;
 }
+var pieceWidth = Math.min($canvas.width, $canvas.height) / 20;
 
 function drawGamePiece() {
   var playerNames = Object.keys(gamePieces);
-  var pieceWidth = Math.min($canvas.width, $canvas.height) / 20;
   playerNames.forEach(function(playerName) {
     var gamePiece = gamePieces[playerName];
     if (!gamePiece.loaded) return;
@@ -71,13 +72,13 @@ function drawGamePiece() {
       context.beginPath();
       context.strokeStyle = "green";
       context.linewidth = 10;
-      context.rect(gamePiece.x-pieceWidth*0.25, gamePiece.y-pieceWidth*0.25, pieceWidth*1.5, pieceWidth*1.5)
+      context.rect(gamePiece.x - pieceWidth * 0.25, gamePiece.y - pieceWidth * 0.25, pieceWidth * 1.5, pieceWidth * 1.5)
       context.stroke();
     } else {
       context.beginPath();
       context.strokeStyle = "yellow"
       context.linewidth = 10;
-      context.rect(gamePiece.x-pieceWidth*0.25, gamePiece.y-pieceWidth*0.25, pieceWidth*1.5, pieceWidth*1.5)
+      context.rect(gamePiece.x - pieceWidth * 0.25, gamePiece.y - pieceWidth * 0.25, pieceWidth * 1.5, pieceWidth * 1.5)
       context.stroke();
     };
   });
@@ -92,30 +93,31 @@ function animate() {
 
 function updatePlayerPosition(e) {
   var gamePiece = gamePieces[user];
-  var xStep = $canvas.width/20
-  var yStep = $canvas.height/20
+  var xStep = $canvas.width / 20
+  var yStep = $canvas.height / 20
+  var w = Math.min($canvas.width, $canvas.height) / 20;
   switch (e.key) {
     case 'ArrowLeft':
-      gamePiece.x=gamePiece.x-xStep;
-      if(gamePiece.x<0) {
+      gamePiece.x = gamePiece.x - xStep;
+      if (gamePiece.x < 0) {
         gamePiece.x = 0
       }
       break;
     case 'ArrowRight':
-      gamePiece.x=gamePiece.x+xStep;
-      if(gamePiece.x+pieceWidth>$canvas.width) {
-        gamePiece.x = $canvas.width - pieceWidth
+      gamePiece.x = gamePiece.x + xStep;
+      if (gamePiece.x + w > $canvas.width) {
+        gamePiece.x = $canvas.width - w
       }
       break;
     case 'ArrowDown':
-      gamePiece.y=gamePiece.y+yStep;
-      if(gamePiece.y+pieceWidth>$canvas.height) {
-        gamePiece.y = $canvas.height - pieceWidth
+      gamePiece.y = gamePiece.y + yStep;
+      if (gamePiece.y + w > $canvas.height) {
+        gamePiece.y = $canvas.height - w
       }
       break;
     case 'ArrowUp':
-      gamePiece.y=gamePiece.y-yStep;
-      if(gamePiece.y<0) {
+      gamePiece.y = gamePiece.y - yStep;
+      if (gamePiece.y < 0) {
         gamePiece.y = 0
       }
       break;
@@ -132,36 +134,44 @@ function updatePlayerPosition(e) {
 
 var mainPlayer = gamePieces[user]
 Object.keys(gamePieces).forEach(function(player) {
-  if(player === user) return;
+  if (player === user) return;
   var otherPlayer = gamePieces[player];
-  if(collide(mainPlayer, otherPlayer)) {
-  }
+  if (collide(mainPlayer, otherPlayer)) {}
 })
 
 socket.on("time", runTimer)
 
 function checkSecond(sec) {
-  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
-  if (sec < 0) {sec = "59"};
+  if (sec < 10 && sec >= 0) {
+    sec = "0" + sec
+  }; // add zero in front of numbers < 10
+  if (sec < 0) {
+    sec = "59"
+  };
   return sec;
 
 }
 
-function drawBarriers(){}
+function drawBarriers() {}
 
-function earnPoints(){}
+function earnPoints() {}
 
-function createSoundEffects(){}
+function createSoundEffects() {}
 
-function createItems(){
-  var x = parseInt(Math.random()*100);
-  var y = parseInt(Math.random()*100);
-  gameItems.push({x,y})
-  setTimeout(createItems, 5000+Math.random()*10000);
-  setTimeout(function(){gameItems.shift()}, 10000);
+function createItems() {
+  var x = parseInt(Math.random() * 100);
+  var y = parseInt(Math.random() * 100);
+  gameItems.push({
+    x,
+    y
+  })
+  setTimeout(createItems, 5000 + Math.random() * 10000);
+  setTimeout(function() {
+    gameItems.shift()
+  }, 10000);
 }
 
-function drawItems(){
+function drawItems() {
   var itemWidth = Math.min($canvas.width, $canvas.height) / 30;
   gameItems.forEach(function(gameItem) {
     context.drawImage(
@@ -171,7 +181,7 @@ function drawItems(){
   });
 }
 
-function runTimer(timer){
+function runTimer(timer) {
   document.querySelector("#timer").innerHTML = timer
 }
 
