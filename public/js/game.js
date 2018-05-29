@@ -97,15 +97,27 @@ function updatePlayerPosition(e) {
   switch (e.key) {
     case 'ArrowLeft':
       gamePiece.x=gamePiece.x-xStep;
+      if(gamePiece.x<0) {
+        gamePiece.x = 0
+      }
       break;
     case 'ArrowRight':
       gamePiece.x=gamePiece.x+xStep;
+      if(gamePiece.x+pieceWidth>$canvas.width) {
+        gamePiece.x = $canvas.width - pieceWidth
+      }
       break;
     case 'ArrowDown':
       gamePiece.y=gamePiece.y+yStep;
+      if(gamePiece.y+pieceWidth>$canvas.height) {
+        gamePiece.y = $canvas.height - pieceWidth
+      }
       break;
     case 'ArrowUp':
       gamePiece.y=gamePiece.y-yStep;
+      if(gamePiece.y<0) {
+        gamePiece.y = 0
+      }
       break;
     default:
       break;
