@@ -34,9 +34,13 @@ function updatePlayers(players) {
       };
   });
 }
-
+var winnertimes = 0
 function winner(winners) {
-  alert(winners)
+  winnertimes++ ;
+  if(winnertimes<1) {
+    alert(winners)
+  }
+
 }
 
 

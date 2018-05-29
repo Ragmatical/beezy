@@ -62,7 +62,6 @@ function addSockets() {
   setInterval(function() {
     io.emit("time", timer);
     if (timer > 0) {
-      console.log('timer', timer)
       return timer--
     };
     var winners;
@@ -81,7 +80,6 @@ function addSockets() {
           winners = "zombies"
         }
       })
-      console.log('winner', winners);
       return io.emit('Dubs', winners);
     };
   }, 1000)
