@@ -34,10 +34,10 @@ function updatePlayers(players) {
       };
   });
 }
-var winnertimes = 0
+var winnertimes = 0;
 function winner(winners) {
   winnertimes++ ;
-  if(winnertimes<1) {
+  if(winnertimes<2) {
     alert(winners)
   }
 
