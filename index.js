@@ -62,10 +62,11 @@ function addSockets() {
   setInterval(function() {
     io.emit("time", timer);
     if (timer > 0) {
+      console.log('timer', timer)
       return timer--
     };
     var winners;
-    if (timer = 0) {
+    if(timer === 0) {
       var humans = []
       var zombies = []
       Object.keys(players).forEach(function(player) {
@@ -80,6 +81,7 @@ function addSockets() {
           winners = "zombies"
         }
       })
+      console.log('winner', winners);
       return io.emit('Dubs', winners);
     };
   }, 1000)
