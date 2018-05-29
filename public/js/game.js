@@ -92,8 +92,8 @@ function animate() {
 
 function updatePlayerPosition(e) {
   var gamePiece = gamePieces[user];
-  var xStep = $canvas.width/25
-  var yStep = $canvas.height/25
+  var xStep = $canvas.width/20
+  var yStep = $canvas.height/20
   switch (e.key) {
     case 'ArrowLeft':
       gamePiece.x=gamePiece.x-xStep;
