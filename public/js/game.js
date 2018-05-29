@@ -88,18 +88,20 @@ function animate() {
 
 function updatePlayerPosition(e) {
   var gamePiece = gamePieces[user];
+  var xStep = $canvas.width/25
+  var yStep = $canvas.height/25
   switch (e.key) {
     case 'ArrowLeft':
-      gamePiece.x=gamePiece.x-5;
+      gamePiece.x=gamePiece.x-xStep;
       break;
     case 'ArrowRight':
-      gamePiece.x=gamePiece.x+5;
+      gamePiece.x=gamePiece.x+xStep;
       break;
     case 'ArrowDown':
-      gamePiece.y=gamePiece.y+5;
+      gamePiece.y=gamePiece.y+yStep;
       break;
     case 'ArrowUp':
-      gamePiece.y=gamePiece.y-5;
+      gamePiece.y=gamePiece.y-yStep;
       break;
     default:
       break;
