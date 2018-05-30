@@ -33,7 +33,7 @@ function addSockets() {
       zombie: false
     };
     if (Object.keys(players).length === 1) {
-      timer = 120
+      timer = 60
       players[user].zombie = true
     }
     io.emit('playerUpdate', players);
