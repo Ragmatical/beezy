@@ -110,10 +110,12 @@ function updatePlayerPosition(e) {
     default:
       break;
   }
+  collide();
   socket.emit('playerUpdate', {
     x: gamePiece.x,
     y: gamePiece.y,
-    zombie: gamePiece.zombie
+    zombie: gamePiece.zombie,
+    user: user
   });
 
 }
@@ -122,8 +124,6 @@ var mainPlayer = gamePieces[user]
 Object.keys(gamePieces).forEach(function(player) {
   if(player === user) return;
   var otherPlayer = gamePieces[player];
-  if(collide(mainPlayer, otherPlayer)) {
-  }
 })
 
 socket.on("time", runTimer)
@@ -162,6 +162,48 @@ function drawItems(){
 function runTimer(timer){
   document.querySelector("#timer").innerHTML = timer
 }
+
+function collide(){
+  var pieceWidth = Math.min($canvas.width, $canvas.height) / 20;
+  var mainPlayer = gamePieces[user]
+  Object.keys(gamePieces).forEach(function(player) {
+    if(player === user) return;
+    var otherPlayer = gamePieces[player];
+    var mainPlayerLeft = mainPlayer.x;
+    var mainPlayerRight = mainPlayer.x + pieceWidth;
+    var mainPlayerTop = mainPlayer.y;
+    var mainPlayerBottom = mainPlayer.y + pieceWidth;
+    var otherPlayerLeft = otherPlayer.x;
+    var otherPlayerRight = otherPlayer.x + pieceWidth;
+    var otherPlayerTop = otherPlayer.y;
+    var otherPlayerBottom = otherPlayer.y + pieceWidth;
+    var upperLeftCollides = otherPlayerLeft <= mainPlayerLeft && mainPlayerLeft <= otherPlayerRight
+                            && otherPlayerTop <= mainPlayerTop && mainPlayerTop <= otherPlayerBottom;
+    var upperRightCollides = otherPlayerLeft <= mainPlayerRight && mainPlayerRight <= otherPlayerRight
+                            && otherPlayerTop <= mainPlayerTop && mainPlayerTop <= otherPlayerBottom;
+    var lowerLeftCollides = otherPlayerLeft <= mainPlayerLeft && mainPlayerLeft <= otherPlayerRight
+                            && otherPlayerTop <= mainPlayerBottom && mainPlayerBottom <= otherPlayerBottom;
+    var lowerRightCollides = otherPlayerLeft <= mainPlayerRight && mainPlayerRight <= otherPlayerRight
+                            && otherPlayerTop <= mainPlayerBottom && mainPlayerBottom <= otherPlayerBottom;
+    if(upperLeftCollides || upperRightCollides || lowerLeftCollides ||lowerRightCollides){
+      playerCollision(mainPlayer, otherPlayer);
+    }
+  });
+};
+
+function playerCollision(mainPlayer, otherPlayer) {
+    if(otherPlayer.zombie === true){
+      mainPlayer.zombie = true;
+    }
+    else if(mainPlayer.zombie === true){
+
+      otherPlayer.zombie = true;
+    }
+    else{
+      return;
+    }
+};
+
 
 window.requestAnimationFrame(animate);
 createNewPlayer(user);
